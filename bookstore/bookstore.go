@@ -5,11 +5,11 @@ import (
 )
 
 type Book struct {
-	ID int
-	Title string
-	Author string
-	Copies int
-	PriceCents int
+	ID              int
+	Title           string
+	Author          string
+	Copies          int
+	PriceCents      int
 	DiscountPercent int
 }
 
@@ -21,7 +21,7 @@ func (c Catalog) GetAllBooks() []Book {
 		books = append(books, v)
 	}
 	return books
-		
+
 }
 
 func Buy(b Book) (Book, error) {
@@ -63,8 +63,5 @@ func GetBook(catalog map[int]Book, id int) (Book, error) {
 */
 
 func (b Book) NetPriceCents() int {
-	return b.PriceCents - (b.PriceCents *b.DiscountPercent)/100
+	return b.PriceCents - (b.PriceCents*b.DiscountPercent)/100
 }
-
-
-
