@@ -6,11 +6,48 @@ import (
 
 type Book struct {
 	ID              int
+	category        Category
 	Title           string
 	Author          string
 	Copies          int
 	PriceCents      int
 	DiscountPercent int
+}
+
+type Category int
+
+const (
+	CategoryRomance Category = iota
+	CategoryScifi
+	CategoryTechnical
+	CategoryAutobiography
+)
+
+var ValidCategory = map[Category]bool{
+	CategoryRomance:       true,
+	CategoryScifi:         true,
+	CategoryTechnical:     true,
+	CategoryAutobiography: true,
+}
+
+func (b *Book) SetCategory(c Category) error {
+	if ValidCategory[c] {
+		b.category = c
+		return nil
+	}
+	return errors.New("invalid category!")
+}
+
+func (b Book) Category() Category {
+	return b.category
+}
+
+func (b *Book) SetPriceCents(p int) error {
+	if p < 0 {
+		return errors.New("price cannot be negative!")
+	}
+	b.PriceCents = p
+	return nil
 }
 
 type Catalog map[int]Book
@@ -21,7 +58,6 @@ func (c Catalog) GetAllBooks() []Book {
 		books = append(books, v)
 	}
 	return books
-
 }
 
 func Buy(b Book) (Book, error) {
